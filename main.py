@@ -1,6 +1,7 @@
 from typing import Any
 import pygame
 import random
+import sys
 
 pygame.init()
 
@@ -42,13 +43,25 @@ class Sprite(pygame.sprite.Sprite):
         return (self.frame_width, self.frame_height)
 
 
-class Helth:
+class Health:
     def __init__(self, screen):
         self.screen = screen
         self.max_hp = 100
+        self.current_hp = 100
+        self.hp_bar_width = WIDTH
+        self.hp_bar_height = 5
 
     def update(self):
-        pass
+        pygame.draw.rect(screen, RED, (0, 0, self.hp_bar_width, self.hp_bar_height))
+        ratio = (self.hp_bar_width * self.current_hp) / self.max_hp
+        pygame.draw.rect(screen, GREEN, (0, 0, ratio, self.hp_bar_height))
+
+    def damage(self, amount):
+        if self.current_hp - amount >= 0:
+            self.current_hp = self.current_hp - amount
+
+    def is_dead(self):
+        return self.current_hp <= 0
 
 
 class Player:
@@ -60,6 +73,7 @@ class Player:
             Sprite("sprites\player\Attack_1.png", 4),
             Sprite("sprites\player\Attack_2.png", 3),
         ]
+        self.dead = Sprite("sprites\player\Dead.png", 3)
         self.screen = screen
         self.direction = False
         self.attack_lock = False
@@ -69,13 +83,16 @@ class Player:
         self.sprite = self.idle.get_frame()
         self.last_updated = 0
         self.attack_type = random.randint(0, 1)
+        self.hp = Health(self.screen)
 
     def update(self):
         if pygame.time.get_ticks() - self.last_updated >= UPDATE_INTERVAL:
             self.last_updated = pygame.time.get_ticks()
             keys = pygame.key.get_pressed()
             self.sprite = self.idle.get_frame(self.direction)
-            if not self.attack_lock:
+            if self.hp.is_dead():
+                self.sprite = self.dead.get_frame(self.direction)
+            elif not self.attack_lock:
                 if keys[pygame.K_LEFT]:
                     self.direction = True
                     if (
@@ -104,19 +121,32 @@ class Player:
                     self.attack_type = random.randint(0, 1)
 
         rect = (self.x, self.y)
+        if pygame.key.get_pressed()[pygame.K_z]:
+            self.hp.damage(10)
+        self.hp.update()
         screen.blit(self.sprite, rect)
+        if not self.dead.animation_status():
+            screen.fill(RED)
+            global running
+            running = False
 
 
 player = Player(screen)
+running = True
 
-while True:
+while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-            break
+            sys.exit()
 
     screen.fill((44, 44, 44))
 
     player.update()
     pygame.display.flip()
     clock.tick(FPS)
+
+pygame.time.delay(1000)
+
+pygame.quit()
+sys.exit()
