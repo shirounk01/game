@@ -3,6 +3,7 @@ import random
 import config
 from sprite import Sprite
 from health import Health
+from mana import Mana
 
 
 class Player:
@@ -26,6 +27,7 @@ class Player:
         self.attack_type = random.randint(0, 1)
         self.hp = Health(self.screen)
         self.has_died = False
+        self.mana = Mana(self.screen)
 
     def is_dead(self):
         return self.has_died
@@ -68,7 +70,10 @@ class Player:
         rect = (self.x, self.y)
         if pygame.key.get_pressed()[pygame.K_z]:
             self.hp.damage(10)
+        if pygame.key.get_pressed()[pygame.K_x]:
+            self.mana.recover(10)
         self.hp.update()
+        self.mana.update()
         self.screen.blit(self.sprite, rect)
         if not self.dead.animation_status():
             self.screen.fill(config.RED)
