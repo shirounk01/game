@@ -8,24 +8,27 @@ class Mana:
         self.max_mana = 100
         self.current_mana = 0
         self.mana_bar_width = config.WIDTH
-        self.mana_bar_height = 5
+        self.mana_bar_height = 7
+        self.mana_bar_color = config.LIGHT_BLUE
         self.power_up = False
+        self.last_updated = 0
 
     def update(self):
-        if self.power_up:
-            self.current_mana -= 0.25
-            pygame.draw.rect(
-                self.screen, (255, 0, 0, 128), (0, 0, config.WIDTH, config.HEIGHT)
-            )
-            if self.current_mana == 0:
-                self.power_up = False
+        if pygame.time.get_ticks() - self.last_updated >= config.UPDATE_INTERVAL:
+            self.last_updated = pygame.time.get_ticks()
+            if self.power_up:
+                self.current_mana -= 1
+                self.mana_bar_color = config.YELLOW
+                if self.current_mana == 0:
+                    self.power_up = False
+                    self.mana_bar_color = config.LIGHT_BLUE
         pygame.draw.rect(
             self.screen,
             config.DARK_BLUE,
             (0, 5, self.mana_bar_width, self.mana_bar_height),
         )
         ratio = (self.mana_bar_width * self.current_mana) / self.max_mana
-        pygame.draw.rect(self.screen, config.LIGHT_BLUE, (0, 6, ratio, 3))
+        pygame.draw.rect(self.screen, self.mana_bar_color, (0, 6, ratio, 4))
 
     def recover(self, amount):
         if self.current_mana + amount <= self.max_mana:

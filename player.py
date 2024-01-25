@@ -98,7 +98,8 @@ class Player:
         return self.x + self.sprite.get_width() // 2
 
     def get_damaged(self, value):
-        self.hp.damage(value)
+        if not self.mana.has_power_up():
+            self.hp.damage(value)
 
     def is_attacking(self):
         return self.attack_lock
