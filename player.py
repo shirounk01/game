@@ -21,7 +21,7 @@ class Player:
         self.attack_lock = False
         self.x = 0
         self.y = config.HEIGHT - self.idle.get_size()[0]
-        self.runnable_distance = 15
+        self.runnable_distance = config.RUNNABLE_DISTANCE
         self.sprite = self.idle.get_frame()
         self.last_updated = 0
         self.attack_type = random.randint(0, 1)
@@ -32,7 +32,7 @@ class Player:
     def is_dead(self):
         return self.has_died
 
-    def update(self):
+    def update(self, enemy):
         if pygame.time.get_ticks() - self.last_updated >= config.UPDATE_INTERVAL:
             self.last_updated = pygame.time.get_ticks()
             keys = pygame.key.get_pressed()
@@ -78,3 +78,6 @@ class Player:
         if not self.dead.animation_status():
             self.screen.fill(config.RED)
             self.has_died = True
+
+    def check_position(self, x):
+        return self.x + self.sprite.get_width() // 2 < x

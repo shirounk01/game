@@ -3,6 +3,7 @@ import pygame
 import sys
 import config
 from player import Player
+from enemy import Enemy
 
 pygame.init()
 
@@ -12,6 +13,7 @@ pygame.display.set_caption("Game")
 clock = pygame.time.Clock()
 
 player = Player(screen)
+enemy = Enemy(screen)
 
 while not player.is_dead():
     for event in pygame.event.get():
@@ -19,9 +21,10 @@ while not player.is_dead():
             pygame.quit()
             sys.exit()
 
-    screen.fill((44, 44, 44))
+    screen.fill(config.GREY)
 
-    player.update()
+    player.update(enemy)
+    enemy.update(player)
     pygame.display.flip()
     clock.tick(config.FPS)
 
