@@ -11,7 +11,9 @@ screen = pygame.display.set_mode((config.WIDTH, config.HEIGHT))
 pygame.display.set_caption("Kazan no Hibana")
 
 clock = pygame.time.Clock()
-bg = pygame.image.load("sprites\game\Background.jpg")
+bg_image = pygame.image.load("sprites\game\Background.jpg")
+bg_music = pygame.mixer.music.load("audio\game\Background.ogg")
+pygame.mixer.music.play(-1)
 
 player = Player(screen)
 enemies = []
@@ -24,7 +26,7 @@ while not player.is_dead():
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             enemies.append(Enemy(screen=screen, x=event.pos[0]))
 
-    screen.blit(bg, (0, 0))
+    screen.blit(bg_image, (0, 0))
 
     for enemy in enemies:
         if enemy.has_died and not enemy.check_death_animation_status():

@@ -11,6 +11,11 @@ class Enemy:
         self.walk = Sprite("sprites\enemy\Walk.png", 7)
         self.attack = Sprite("sprites\enemy\Attack.png", 11)
         self.dead = Sprite("sprites\enemy\Dead.png", 5)
+        self.attack_sound = [
+            pygame.mixer.Sound("audio\enemy\Attack_1.wav"),
+            pygame.mixer.Sound("audio\enemy\Attack_2.wav"),
+        ]
+        self.death_sound = pygame.mixer.Sound("audio\enemy\Death.wav")
         self.screen = screen
         self.direction = False
         self.x = x
@@ -42,12 +47,16 @@ class Enemy:
                     self.x += config.RUNNABLE_DISTANCE // 4
                 self.hp.update_x(self.x, False)
             if self.can_attack(player.get_position()) or self.attack_lock:
+                if not self.attack_lock and self.attack.animation_status():
+                    self.attack_sound[random.randint(0, 1)].play()
                 self.attack_lock = self.attack.animation_status()
                 self.sprite = self.attack.get_frame(self.direction)
-                if not self.attack_lock:
+                if not self.attack_lock and self.can_attack(player.get_position()):
                     self.hp.damage(config.DAMAGE_VALUE // 2)
                     player.get_damaged(config.DAMAGE_VALUE)
             if self.hp.is_dead() or self.has_died:
+                if self.dead.animation_status() and not self.has_died:
+                    self.death_sound.play()
                 self.has_died = self.dead.animation_status()
                 self.sprite = self.dead.get_frame(self.direction)
 
@@ -67,7 +76,7 @@ class Enemy:
     def can_attack(self, position):
         return (
             abs(self.x + self.sprite.get_width() // 2 - position)
-            <= self.sprite.get_width() // 4
+            <= self.sprite.get_width() // 2
         )
 
     def check_death_animation_status(self):

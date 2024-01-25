@@ -15,7 +15,12 @@ class Player:
             Sprite("sprites\player\Attack_1.png", 4),
             Sprite("sprites\player\Attack_2.png", 3),
         ]
+        self.attack_sound = [
+            pygame.mixer.Sound("audio\player\Attack_1.wav"),
+            pygame.mixer.Sound("audio\player\Attack_2.wav"),
+        ]
         self.dead = Sprite("sprites\player\Dead.png", 3)
+        self.power_up = pygame.mixer.Sound("audio\player\Power_up.wav")
         self.screen = screen
         self.direction = False
         self.attack_lock = False
@@ -61,21 +66,22 @@ class Player:
                         self.x = self.x + self.runnable_distance // 2
                         self.sprite = self.walk.get_frame(self.direction)
 
-            if keys[pygame.K_x] or self.attack_lock:
+            if keys[pygame.K_z] or self.attack_lock:
                 try:
                     if (
                         not self.attack_lock
                         and self.attack[self.attack_type].animation_status()
-                        and enemy.is_in_vulnerable_range(self.get_position())
                     ):
-                        damage_value = (
-                            config.DAMAGE_VALUE
-                            if not self.mana.has_power_up()
-                            else config.DAMAGE_VALUE * 2
-                        )
-                        enemy.get_damaged(damage_value)
-                        if not self.mana.has_power_up():
-                            self.mana.recover(config.MANA_RECOVER_VALUE)
+                        self.attack_sound[self.attack_type].play()
+                        if enemy.is_in_vulnerable_range(self.get_position()):
+                            damage_value = (
+                                config.DAMAGE_VALUE
+                                if not self.mana.has_power_up()
+                                else config.DAMAGE_VALUE * 2
+                            )
+                            enemy.get_damaged(damage_value)
+                            if not self.mana.has_power_up():
+                                self.mana.recover(config.MANA_RECOVER_VALUE)
                 except:
                     pass
                 self.attack_lock = self.attack[self.attack_type].animation_status()
@@ -83,7 +89,8 @@ class Player:
                 if not self.attack_lock:
                     self.attack_type = random.randint(0, 1)
 
-            if keys[pygame.K_z] and self.mana.is_full():
+            if keys[pygame.K_x] and self.mana.is_full():
+                self.power_up.play()
                 self.mana.set_power_up()
 
         rect = (self.x, self.y)
