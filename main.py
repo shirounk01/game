@@ -13,7 +13,7 @@ pygame.display.set_caption("Game")
 clock = pygame.time.Clock()
 
 player = Player(screen)
-enemy = Enemy(screen)
+enemies = [Enemy(screen)]
 
 while not player.is_dead():
     for event in pygame.event.get():
@@ -23,8 +23,15 @@ while not player.is_dead():
 
     screen.fill(config.GREY)
 
-    player.update(enemy)
-    enemy.update(player)
+    for enemy in enemies:
+        if enemy.has_died and not enemy.check_death_animation_status():
+            enemies.remove(enemy)
+            del enemy
+        else:
+            player.update(enemy)
+            enemy.update(player)
+    else:
+        player.update(None)
     pygame.display.flip()
     clock.tick(config.FPS)
 

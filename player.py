@@ -62,16 +62,21 @@ class Player:
                         self.sprite = self.walk.get_frame(self.direction)
 
             if keys[pygame.K_x] or self.attack_lock:
+                try:
+                    if (
+                        not self.attack_lock
+                        and self.attack[self.attack_type].animation_status()
+                        and enemy.is_in_vulnerable_range(self.get_position())
+                    ):
+                        enemy.get_damaged(config.DAMAGE_VALUE)
+                except:
+                    pass
                 self.attack_lock = self.attack[self.attack_type].animation_status()
                 self.sprite = self.attack[self.attack_type].get_frame(self.direction)
                 if not self.attack_lock:
                     self.attack_type = random.randint(0, 1)
 
         rect = (self.x, self.y)
-        if pygame.key.get_pressed()[pygame.K_z]:
-            self.hp.damage(10)
-        if pygame.key.get_pressed()[pygame.K_x]:
-            self.mana.recover(10)
         self.hp.update()
         self.mana.update()
         self.screen.blit(self.sprite, rect)
@@ -79,5 +84,11 @@ class Player:
             self.screen.fill(config.RED)
             self.has_died = True
 
-    def check_position(self, x):
-        return self.x + self.sprite.get_width() // 2 < x
+    def get_position(self):
+        return self.x + self.sprite.get_width() // 2
+
+    def get_damaged(self, value):
+        self.hp.damage(value)
+
+    def is_attacking(self):
+        return self.attack_lock
