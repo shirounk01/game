@@ -9,8 +9,16 @@ class Mana:
         self.current_mana = 0
         self.mana_bar_width = config.WIDTH
         self.mana_bar_height = 5
+        self.power_up = False
 
     def update(self):
+        if self.power_up:
+            self.current_mana -= 0.25
+            pygame.draw.rect(
+                self.screen, (255, 0, 0, 128), (0, 0, config.WIDTH, config.HEIGHT)
+            )
+            if self.current_mana == 0:
+                self.power_up = False
         pygame.draw.rect(
             self.screen,
             config.DARK_BLUE,
@@ -22,3 +30,12 @@ class Mana:
     def recover(self, amount):
         if self.current_mana + amount <= self.max_mana:
             self.current_mana = self.current_mana + amount
+
+    def is_full(self):
+        return self.current_mana == self.max_mana
+
+    def set_power_up(self):
+        self.power_up = True
+
+    def has_power_up(self):
+        return self.power_up

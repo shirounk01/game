@@ -6,14 +6,14 @@ from health import Health
 
 
 class Enemy:
-    def __init__(self, screen):
+    def __init__(self, screen, x):
         self.idle = Sprite("sprites\enemy\Idle.png", 6)
         self.walk = Sprite("sprites\enemy\Walk.png", 7)
         self.attack = Sprite("sprites\enemy\Attack.png", 11)
         self.dead = Sprite("sprites\enemy\Dead.png", 5)
         self.screen = screen
         self.direction = False
-        self.x = random.randint(0, config.WIDTH)
+        self.x = x
         self.y = config.HEIGHT - self.walk.get_size()[0]
         self.runnable_distance = config.RUNNABLE_DISTANCE
         self.sprite = self.walk.get_frame()

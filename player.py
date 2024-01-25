@@ -68,7 +68,14 @@ class Player:
                         and self.attack[self.attack_type].animation_status()
                         and enemy.is_in_vulnerable_range(self.get_position())
                     ):
-                        enemy.get_damaged(config.DAMAGE_VALUE)
+                        damage_value = (
+                            config.DAMAGE_VALUE
+                            if not self.mana.has_power_up()
+                            else config.DAMAGE_VALUE * 2
+                        )
+                        enemy.get_damaged(damage_value)
+                        if not self.mana.has_power_up():
+                            self.mana.recover(config.MANA_RECOVER_VALUE)
                 except:
                     pass
                 self.attack_lock = self.attack[self.attack_type].animation_status()
@@ -76,9 +83,12 @@ class Player:
                 if not self.attack_lock:
                     self.attack_type = random.randint(0, 1)
 
+            if keys[pygame.K_z] and self.mana.is_full():
+                self.mana.set_power_up()
+
         rect = (self.x, self.y)
-        self.hp.update()
         self.mana.update()
+        self.hp.update()
         self.screen.blit(self.sprite, rect)
         if not self.dead.animation_status():
             self.screen.fill(config.RED)

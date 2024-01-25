@@ -13,13 +13,15 @@ pygame.display.set_caption("Game")
 clock = pygame.time.Clock()
 
 player = Player(screen)
-enemies = [Enemy(screen)]
+enemies = []
 
 while not player.is_dead():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            enemies.append(Enemy(screen=screen, x=event.pos[0]))
 
     screen.fill(config.GREY)
 
