@@ -3,12 +3,13 @@ import config
 
 
 class Mana:
+    mana_bar_height = 7
+    max_mana = 100
+
     def __init__(self, screen):
         self.screen = screen
-        self.max_mana = 100
         self.current_mana = 0
         self.mana_bar_width = config.WIDTH
-        self.mana_bar_height = 7
         self.mana_bar_color = config.LIGHT_BLUE
         self.power_up = False
         self.last_updated = 0
@@ -22,12 +23,14 @@ class Mana:
                 if self.current_mana == 0:
                     self.power_up = False
                     self.mana_bar_color = config.LIGHT_BLUE
+
+        ratio = (self.mana_bar_width * self.current_mana) / self.max_mana
+
         pygame.draw.rect(
             self.screen,
             config.DARK_BLUE,
             (0, 5, self.mana_bar_width, self.mana_bar_height),
         )
-        ratio = (self.mana_bar_width * self.current_mana) / self.max_mana
         pygame.draw.rect(self.screen, self.mana_bar_color, (0, 6, ratio, 4))
 
     def recover(self, amount):

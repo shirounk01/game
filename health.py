@@ -3,22 +3,25 @@ import config
 
 
 class Health:
+    hp_bar_height = 5
+    max_hp = 100
+
     def __init__(self, screen, x=0, y=0, width=config.WIDTH, sprite_width=config.WIDTH):
         self.screen = screen
-        self.max_hp = 100
         self.current_hp = 100
         self.hp_bar_width = width
         self.sprite_width = sprite_width
-        self.hp_bar_height = 5
         self.x = x
         self.y = y
 
     def update(self):
         ratio = (self.hp_bar_width * self.current_hp) / self.max_hp
+
         red_rect = pygame.Rect(self.x, self.y, self.hp_bar_width, self.hp_bar_height)
         red_rect.centerx = self.x + self.sprite_width // 2
         green_rect = pygame.Rect(self.x, self.y, ratio, self.hp_bar_height)
         green_rect.topleft = red_rect.topleft
+
         pygame.draw.rect(
             self.screen,
             config.RED,

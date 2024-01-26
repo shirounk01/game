@@ -18,7 +18,7 @@ class Sprite(pygame.sprite.Sprite):
         )
         return pygame.transform.flip(self.img.subsurface(rect), flip_frame, False)
 
-    def animation_status(self):
+    def check_animation_status(self):
         return not self.current_frame == self.frame_count - 1
 
     def get_size(self):
