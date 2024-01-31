@@ -20,14 +20,17 @@ enemies = []
 
 while not player.is_dead():
     for event in pygame.event.get():
+        # exit game when the X button is pressed
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        # spawn an enemy when a left click is registered
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             enemies.append(Enemy(screen=screen, x=event.pos[0]))
 
     screen.blit(bg_image, (0, 0))
 
+    # loop through the enemies and create the interaction between them and the player
     for enemy in enemies:
         if enemy.has_died and not enemy.check_death_animation_status():
             enemies.remove(enemy)
@@ -37,6 +40,7 @@ while not player.is_dead():
             player.update(enemy)
     else:
         player.update(None)
+
     pygame.display.flip()
     clock.tick(config.FPS)
 

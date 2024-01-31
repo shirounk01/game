@@ -3,10 +3,9 @@ import config
 
 
 class Mana:
-    mana_bar_height = 7
-    max_mana = 100
-
     def __init__(self, screen):
+        self.mana_bar_height = 7
+        self.max_mana = 100
         self.screen = screen
         self.current_mana = 0
         self.mana_bar_width = config.WIDTH

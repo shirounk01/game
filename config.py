@@ -1,13 +1,14 @@
+# pygame related constants
 WIDTH, HEIGHT = 600, 200
 L_LIMIT, R_LIMIT = -30, 500
 FPS = 60
-
+# game related constants
 UPDATE_INTERVAL = 60
 RUNNABLE_DISTANCE = 15
 ATTACK_RANGE = 100
 DAMAGE_VALUE = 10
 MANA_RECOVER_VALUE = 10
-
+# color values
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 GREY = (44, 44, 44)
