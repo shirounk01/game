@@ -10,7 +10,7 @@ The functionalities the game provides are:
 1. The enemies can attack and harm the player, but whenever that happens, they are inflicted self-damage
 1. The player's HP can be drained by the enemies' explosion
 1. The player's mana can be filled by attacking enemies
-1. When the mana bar is full and the power up is activated, the player deals twice as much damage and is immune to enemies' attacks
+1. When the mana bar is full and the power up is activated, the player deals twice as much damage, is immune to enemies' attacks and recovers half of its' HP over time
 
 ## Game instructions
 

@@ -102,6 +102,7 @@ class Player:
             if keys[pygame.K_x] and self.mana.is_full():
                 self.power_up.play()
                 self.mana.set_power_up()
+                self.hp.regenerate_over_time(50)
 
         rect = (self.x, self.y)
 

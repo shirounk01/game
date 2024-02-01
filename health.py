@@ -17,10 +17,18 @@ class Health:
         self.current_hp = 100
         self.hp_bar_width = width
         self.sprite_width = sprite_width * config.ZOOM
+        self.regen_over_time = 0
+        self.last_updated = 0
         self.x = x
         self.y = y
 
     def update(self, center=config.WIDTH // 2):
+        if pygame.time.get_ticks() - self.last_updated >= config.UPDATE_INTERVAL * 2:
+            self.last_updated = pygame.time.get_ticks()
+            if self.regen_over_time:
+                if self.current_hp + 1 <= self.max_hp:
+                    self.current_hp += 1
+                self.regen_over_time -= 1
         # compute the percentage of hp left
         ratio = (self.hp_bar_width * self.current_hp) / self.max_hp
 
@@ -39,6 +47,9 @@ class Health:
             config.GREEN,
             green_rect,
         )
+
+    def regenerate_over_time(self, value):
+        self.regen_over_time = value
 
     def damage(self, amount):
         if self.current_hp - amount >= 0:
