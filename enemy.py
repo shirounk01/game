@@ -20,9 +20,9 @@ class Enemy:
         self.death_sound = pygame.mixer.Sound("audio\enemy\Death.wav")
         self.screen = screen
         self.direction = False
-        self.x = x - self.walk.get_size()[0] // 2
-        self.y = config.HEIGHT - self.walk.get_size()[0]
         self.sprite = self.walk.get_frame()
+        self.x = x - self.sprite.get_width() // 2
+        self.y = config.HEIGHT - self.sprite.get_width()
         self.last_updated = 0
         self.attack_lock = False
         self.hp = Health(
@@ -101,3 +101,7 @@ class Enemy:
     # change the value of the hp bar based on the incoming damage
     def get_damaged(self, value):
         self.hp.damage(value)
+
+    # check whether the player is already dead or not
+    def is_dead(self):
+        return self.has_died

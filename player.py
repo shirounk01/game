@@ -26,9 +26,9 @@ class Player:
         self.screen = screen
         self.direction = False
         self.attack_lock = False
-        self.x = 0
-        self.y = config.HEIGHT - self.idle.get_size()[0]
         self.sprite = self.idle.get_frame()
+        self.x = 0
+        self.y = config.HEIGHT - self.sprite.get_width()
         self.last_updated = 0
         self.attack_type = random.randint(0, 1)
         self.hp = Health(self.screen)

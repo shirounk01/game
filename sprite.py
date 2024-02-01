@@ -25,7 +25,3 @@ class Sprite(pygame.sprite.Sprite):
     # check if the animation is ongoing: ongoing -> True, finished -> False
     def check_animation_status(self):
         return not self.current_frame == self.frame_count - 1
-
-    # get the width and height of the frame (sprite)
-    def get_size(self):
-        return (self.frame_width * config.ZOOM, self.frame_height * config.ZOOM)
