@@ -3,22 +3,29 @@ import config
 
 
 class Health:
-    def __init__(self, screen, x=0, y=0, width=config.WIDTH, sprite_width=config.WIDTH):
-        self.hp_bar_height = 5
+    def __init__(
+        self,
+        screen,
+        x=0,
+        y=0,
+        width=config.WIDTH,
+        sprite_width=config.WIDTH,
+    ):
+        self.hp_bar_height = 5 * config.ZOOM
         self.max_hp = 100
         self.screen = screen
         self.current_hp = 100
         self.hp_bar_width = width
-        self.sprite_width = sprite_width
+        self.sprite_width = sprite_width * config.ZOOM
         self.x = x
         self.y = y
 
-    def update(self):
+    def update(self, center=config.WIDTH // 2):
         # compute the percentage of hp left
         ratio = (self.hp_bar_width * self.current_hp) / self.max_hp
 
         red_rect = pygame.Rect(self.x, self.y, self.hp_bar_width, self.hp_bar_height)
-        red_rect.centerx = self.x + self.sprite_width // 2
+        red_rect.centerx = center
         green_rect = pygame.Rect(self.x, self.y, ratio, self.hp_bar_height)
         green_rect.topleft = red_rect.topleft
 

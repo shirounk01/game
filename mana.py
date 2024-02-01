@@ -4,7 +4,7 @@ import config
 
 class Mana:
     def __init__(self, screen):
-        self.mana_bar_height = 7
+        self.mana_bar_height = 7 * config.ZOOM
         self.max_mana = 100
         self.screen = screen
         self.current_mana = 0
@@ -28,9 +28,13 @@ class Mana:
         pygame.draw.rect(
             self.screen,
             config.DARK_BLUE,
-            (0, 5, self.mana_bar_width, self.mana_bar_height),
+            (0, 5 * config.ZOOM, self.mana_bar_width, self.mana_bar_height),
         )
-        pygame.draw.rect(self.screen, self.mana_bar_color, (0, 6, ratio, 4))
+        pygame.draw.rect(
+            self.screen,
+            self.mana_bar_color,
+            (0, 6 * config.ZOOM, ratio, 4 * config.ZOOM),
+        )
 
     def recover(self, amount):
         if self.current_mana + amount <= self.max_mana:

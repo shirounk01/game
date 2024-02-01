@@ -26,5 +26,6 @@ The following keys and actions can be executed in order to run the game logics:
 ### Credits
 - Player's sprites: Free Shinobi Sprites Pixel Art - Fighter ([@](https://craftpix.net/freebies/free-shinobi-sprites-pixel-art/))
 - Enemy's sprites: Free Fantasy Enemies Pixel Art Sprite Pack - Fire Spirit ([@](https://craftpix.net/freebies/free-fantasy-enemies-pixel-art-sprite-pack/))
+- Background image: Bamboo Forest by Dismage ([@](https://www.deviantart.com/dismage/art/Bamboo-Forest-688465206))
 - Background music: Arknights - Invitation to Wine (m_bat_bitw1)
 - Sound effects: Arknights - various operators sfx

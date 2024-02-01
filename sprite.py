@@ -1,4 +1,5 @@
 import pygame
+import config
 
 
 class Sprite(pygame.sprite.Sprite):
@@ -16,7 +17,10 @@ class Sprite(pygame.sprite.Sprite):
         rect = pygame.Rect(
             frame * self.frame_width, 0, self.frame_width, self.frame_height
         )
-        return pygame.transform.flip(self.img.subsurface(rect), flip_frame, False)
+        return pygame.transform.scale_by(
+            pygame.transform.flip(self.img.subsurface(rect), flip_frame, False),
+            config.ZOOM,
+        )
 
     # check if the animation is ongoing: ongoing -> True, finished -> False
     def check_animation_status(self):
@@ -24,4 +28,4 @@ class Sprite(pygame.sprite.Sprite):
 
     # get the width and height of the frame (sprite)
     def get_size(self):
-        return (self.frame_width, self.frame_height)
+        return (self.frame_width * config.ZOOM, self.frame_height * config.ZOOM)

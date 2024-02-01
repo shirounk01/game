@@ -67,7 +67,7 @@ class Enemy:
 
         rect = (self.x, self.y)
 
-        self.hp.update()
+        self.hp.update(self.x + self.sprite.get_width() // 2)
         self.screen.blit(self.sprite, rect)
 
     # get the direction: left -> True, right -> False
