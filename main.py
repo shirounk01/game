@@ -15,7 +15,7 @@ bg_image = pygame.transform.scale_by(
     pygame.image.load("sprites\game\Background.jpg"), config.ZOOM
 )
 
-bg_music = pygame.mixer.music.load("audio\game\Background.ogg")
+pygame.mixer.music.load("audio\game\Background.ogg")
 pygame.mixer.music.play(-1)
 
 game_icon = pygame.image.load("sprites\game\Icon.png")
@@ -26,7 +26,7 @@ enemies = []
 
 while not player.is_dead():
     for event in pygame.event.get():
-        # exit game when the X button is pressed
+        # exit game when the X button is pressed or the Esc key is pressed
         if (
             event.type == pygame.QUIT
             or event.type == pygame.KEYDOWN

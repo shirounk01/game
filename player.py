@@ -74,12 +74,12 @@ class Player:
             if keys[pygame.K_z] or self.attack_lock:
                 # when the animation is performed and an enemy is within reach, damage the enemy
                 # otherwise just play the animation and sound effect
-                try:
-                    if (
-                        not self.attack_lock
-                        and self.attack[self.attack_type].check_animation_status()
-                    ):
-                        self.attack_sound[self.attack_type].play()
+                if (
+                    not self.attack_lock
+                    and self.attack[self.attack_type].check_animation_status()
+                ):
+                    self.attack_sound[self.attack_type].play()
+                    try:
                         if enemy.is_in_vulnerable_range(self.get_position()):
                             damage_value = (
                                 config.DAMAGE_VALUE
@@ -89,8 +89,8 @@ class Player:
                             enemy.get_damaged(damage_value)
                             if not self.mana.has_power_up():
                                 self.mana.recover(config.MANA_RECOVER_VALUE)
-                except:
-                    pass
+                    except:
+                        pass
                 self.attack_lock = self.attack[
                     self.attack_type
                 ].check_animation_status()

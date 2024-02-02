@@ -58,7 +58,7 @@ class Enemy:
                 if not self.attack_lock and self.can_attack(player.get_position()):
                     self.hp.damage(config.DAMAGE_VALUE // 2)
                     player.get_damaged(config.DAMAGE_VALUE)
-            # when hp reaches 0, die
+            # when HP reaches 0, die
             if self.hp.is_dead() or self.has_died:
                 if self.die.check_animation_status() and not self.has_died:
                     self.death_sound.play()
