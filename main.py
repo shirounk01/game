@@ -9,13 +9,17 @@ pygame.init()
 
 screen = pygame.display.set_mode((config.WIDTH, config.HEIGHT))
 pygame.display.set_caption("Kazan no Hibana")
-
 clock = pygame.time.Clock()
+
 bg_image = pygame.transform.scale_by(
     pygame.image.load("sprites\game\Background.jpg"), config.ZOOM
 )
+
 bg_music = pygame.mixer.music.load("audio\game\Background.ogg")
 pygame.mixer.music.play(-1)
+
+game_icon = pygame.image.load("sprites\game\Icon.png")
+pygame.display.set_icon(game_icon)
 
 player = Player(screen)
 enemies = []
